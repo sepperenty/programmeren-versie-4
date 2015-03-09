@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-    //Hier staan alle strings die worden gebruiket in de klassen
+    //Hier staan alle strings die worden gebruiket in de klassen, static omdat je hier zoiszo aankan, zonder eerst de klasse aan te maken
 public static class DestroyedCityConstants
 {
 
@@ -16,6 +16,7 @@ public static class DestroyedCityConstants
     public const string MINE_TAG = "mine";
     public const string TERRAIN_TAG = "terrain";
     public const string PLAYER_TAG = "Player";
+    public const string WRACK_TAG = "Wrack";
 
     //Methods to call.
     public const string HIT_BY_ROCKET = "HitByRocket";

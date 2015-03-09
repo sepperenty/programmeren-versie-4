@@ -5,42 +5,103 @@ public class EnemySpawner : MonoBehaviour
 {
 
     public GameObject spider;
-    private GameObject[] spiders = new GameObject[3];   //array van gameobjects
+    private GameObject[] wave;
+    private int waveLength = 5;
+    private int waveInterval = 2;
+
+   public GameObject[] waveSpider;
+    private GameObject[] waveSuperSpider;
+    private GameObject[] waveBoss;
+
     public int amountOfSpiders = 1;
 
+    public void createNewWave(GameObject[]wave, int waveLength)
+    {
+            wave = new GameObject[waveLength];
+            for (int i = 0; i < wave.Length; i++)
+            {
+                wave[i] = Instantiate(spider, transform.position + transform.right * (i * 6), transform.rotation) as GameObject; //6 omdat deze dan naast elkaar komen
+            }
+    }
+    public bool isWaveEmpty( GameObject[]wave) 
+    {
+        bool ArrayIsNull = true;
+        for (int i = 0; i < wave.Length; i++)
+        {
+            if (wave[i] != null)
+            {
+                ArrayIsNull = false;
+                Debug.Log("Empty");
+            }
+        }
+        return ArrayIsNull;
+        
+        
+    }
     // Use this for initialization
     void Start()
     {
-      //GameObject spiderClone = Instantiate(spider, transform.position, transform.rotation) as GameObject;
-      for (int i = 0; i < spiders.Length; i++)
-      {
-        spiders[i] = Instantiate(spider, transform.position + transform.right * (i * 6), transform.rotation) as GameObject; //6 omdat deze dan naast elkaar komen
-      }
+        createNewWave(wave, waveLength);
 
-     
     }
 
     // Update is called once per frame
     void Update()
     {
-      bool allNull = true;
+        if (isWaveEmpty(wave))
+	    {
+		    waveLength += waveInterval;
+            createNewWave(wave, waveLength);
+	    }
+        
 
-      for (int i = 0; i < spiders.Length; i++)
-      {
-        if (spiders[i] != null)
-        {
-          allNull = false;
-          //spiders[i] = Instantiate(spider, transform.position, transform.rotation) as GameObject;
-         
-        }
-      
-      }
 
-      if (allNull)
-      { 
-        //wave2
+     }
 
-      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //for (int i = 0; i < waveSpider.Length; i++)
+    //{
+
+    //}
+    //for (int i = 0; i < waveSuperSpider.Length; i++)
+    //{
+
+    //}
+    //for (int i = 0; i < waveBoss.Length; i++)
+    //{
+
+    //}
+
+    //  bool allNull = true;
+    //for (int i = 0; i < wave1.Length; i++)
+    //{
+    //  if (wave1[i] != null)
+    //  {
+    //    allNull = false;
+    //    //spiders[i] = Instantiate(spider, transform.position, transform.rotation) as GameObject;
+    //  }
+    //}
+    //if (allNull)
+    //{ 
+    //wave2
       //foreach (GameObject spin in spiders)
       //{
       //  if (spin == null)
@@ -49,24 +110,24 @@ public class EnemySpawner : MonoBehaviour
       //  }
       //}
 
-      foreach (GameObject initSpider in spiders)
-      {
+      //foreach (GameObject initSpider in spiders)
+      //{
           
           
-          
-          
-          if (initSpider == null)
-          {
-              for (int i = 0; i < length; i++)
-              {
+      
+      //    if (initSpider == null)
+      //    {
+      //        for (int i = 0; i < spiders.Length; i++)
+      //        {
                   
-              }
-          }
-      }
+      //        }
+      //    }
+      //}
 
 
         ////spawns enemies in waves, once all dead, spawns more
         //      private bool waveSpawner = false;
+        //      
         //      public int totalEnemy = 10;
 	    //      private int numEnemy = 0;
         //      private int spawnedEnemy = 0;
@@ -74,9 +135,9 @@ public class EnemySpawner : MonoBehaviour
         //      public int totalWaves = 5;      //max aantal waves
 	    //      private int numWaves = 0;       //begin aantal waves
         //
-        //        if(numWaves < totalWaves + 1)
+        //        if(numWaves < totalWaves)
         //        {
-        //            if (waveSpawn)
+        //            if (waveSpawner)
         //            {
         //                //spawn enemy
         //                spawnEnemy();
@@ -97,7 +158,7 @@ public class EnemySpawner : MonoBehaviour
         //
         //      private void spawnEnemy()
         //      {
-        //          GameObject Enemy = (GameObject)Instantiate(Enemies[enemyLevel], gameObject.transform.position, Quaternion.identity);
+        //          //code voor spawnEnemy
         //          //verhoog het totale aantal enemies die gaan spawnen en die gespawned zijn 
         //          numEnemy++;
         //          spawnedEnemy++;
@@ -106,5 +167,5 @@ public class EnemySpawner : MonoBehaviour
         //    
 
 
-    }
 }
+

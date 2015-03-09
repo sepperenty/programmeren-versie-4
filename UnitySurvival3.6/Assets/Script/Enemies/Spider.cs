@@ -80,12 +80,8 @@ public class Spider : MonoBehaviour
 
             else if (distance < maxDistanceAttack)                                                //Als de spin dicht genoeg is om te beginnen aanvallen dus kleiner dan "maxDistanceAttack1.
             {
-
                 AttackTimer();                                                                      //Roept het de Attack methode op.
-               
-
             }
-
             else
             {
                 animation.Play(DestroyedCityConstants.IDLE_ANIMATION);                                                             //Als de spin te ver is van de Player om er naartoe te gaan, wordt de Idle Animatie gespeeld

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Boss : SuperSpider {
+public class Boss : SuperSpider
+{
 
     private float teleportTimer = 0f;
     private float canTeleport = 10f;
@@ -12,87 +13,93 @@ public class Boss : SuperSpider {
     private const int TELEPORT_RIGHT = 2;
     private const int TELEPORT_BACK = 3;
     private const int TELEPORT_FORWARD = 4;
-    
+
+    private int heightCheck = 200;
+    private float spiderHeigt = 2.0f;
+
+    private Vector3 playerPosition;
+    private Vector3 spawnPosition;
+
+    private RaycastHit hitClone;
 
     protected override void move()
     {
-      if (isAlive)
-      {
-        if (distance <= maxDistance && distance > maxDistanceAttack)
+        if (isAlive)
         {
-          walkToPlayer();
+            playerPosition = player.transform.position;
+            spawnPosition = playerPosition + player.transform.forward * maxDistanceAttack;
+            if (distance <= maxDistance && distance > maxDistanceAttack)
+            {
+                walkToPlayer();
+            }
+
+            else if (distance <= maxDistanceAttack)
+            {
+                animation.Play(DestroyedCityConstants.IDLE_ANIMATION);
+
+                if (teleportTimer >= canTeleport)
+                {
+                    teleportTimer = canNotAttack;
+                    Teleport();
+                }
+
+                else if (teleportTimer < canTeleport)
+                {
+                    teleportTimer += teleportTimerInterval;
+                }
+            }
         }
-
-        else if (distance <= maxDistanceAttack)
-        {
-          animation.Play(DestroyedCityConstants.IDLE_ANIMATION);
-
-          if (teleportTimer >= canTeleport)
-          {
-            teleportTimer = canNotAttack;
-            Teleport();
-          }
-
-          else if (teleportTimer < canTeleport)
-          {
-            teleportTimer += teleportTimerInterval;
-          }
-        }
-      }
     }
 
     void Teleport()
     {
-        //Vector3 position = player.transform.position;
-
-        //float distance = Random.Range(10.0f, 30.0f);
-
-        //Vector3 objPosition = position + player.transform.forward * distance;
-        //RaycastHit hit;
-        //Vector3 startHit = objPosition;
-        //startHit.y += 200;
-        //Physics.Raycast(startHit, Vector3.down, out hit);
-        //objPosition.y = hit.point.y + 0.5f;
-        //transform.position = objPosition;
-
+        
         int randomNumber = Random.Range(1, 5);
-       // Debug.Log(randomNumber);
-
-        Vector3 position = player.transform.position;
-
-
-        Vector3 spawnPosition = position + player.transform.forward * maxDistanceAttack; ;
-
-        if (randomNumber == TELEPORT_BACK)
-        { 
-          spawnPosition = position + -player.transform.forward * maxDistanceAttack;
-        }
-
-        else if (randomNumber == TELEPORT_FORWARD)
+        // Debug.Log(randomNumber);
+        do
         {
-          spawnPosition = position + player.transform.forward * maxDistanceAttack;
-        }
+            if (randomNumber == TELEPORT_BACK)
+            {
+                spawnPosition = playerPosition + -player.transform.forward * maxDistanceAttack;
+            }
 
-        else if (randomNumber == TELEPORT_RIGHT)
-        {
-          spawnPosition = position + player.transform.right * maxDistanceAttack;
-        }
+            else if (randomNumber == TELEPORT_FORWARD)
+            {
+                spawnPosition = playerPosition + player.transform.forward * maxDistanceAttack;
+            }
 
-        else if (randomNumber == TELEPORT_LEFT)
-        {
-          spawnPosition = position + -player.transform.right * maxDistanceAttack;
-        }
+            else if (randomNumber == TELEPORT_RIGHT)
+            {
+                spawnPosition = playerPosition + player.transform.right * maxDistanceAttack;
+            }
 
-        RaycastHit hit;
-        Vector3 rayStart = spawnPosition;
-        rayStart.y += 200;
-        Physics.Raycast(rayStart, Vector3.down, out hit);
-        spawnPosition.y = hit.point.y + 2f;
+            else if (randomNumber == TELEPORT_LEFT)
+            {
+                spawnPosition = playerPosition + -player.transform.right * maxDistanceAttack;
+            }
+
+        
+            TeleportRaycast();
+        }
+        while (hitClone.collider.tag == DestroyedCityConstants.WRACK_TAG );
         transform.position = spawnPosition;
     }
 
+    public void TeleportRaycast()
+    {
+        RaycastHit hit;
+        Vector3 rayStart = spawnPosition;   //raystart is zelfde locatie, enkel hoger
+        rayStart.y += heightCheck;
+        Physics.Raycast(rayStart, Vector3.down, out hit);
+        hitClone = returnHit(hit);
+        spawnPosition.y = hit.point.y + spiderHeigt; //hit + 2m om de spider niet in de grond te laten spawnen
+    }
+    public RaycastHit returnHit(RaycastHit hit)
+    {
+        return hit;
+    }
 
-    
 
-   
+
+
 }

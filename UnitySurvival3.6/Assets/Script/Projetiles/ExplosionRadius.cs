@@ -26,7 +26,7 @@ public class ExplosionRadius : MonoBehaviour {
   {
     if (other.tag == "spider")
     {
-      other.SendMessage("HitByExplosion",damage );
+      other.SendMessage("HitByExplosion", damage);
     }
   }
 }

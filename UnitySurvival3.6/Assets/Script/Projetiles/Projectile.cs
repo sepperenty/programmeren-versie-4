@@ -5,17 +5,18 @@ using System.Collections;
  * */
 public abstract class Projectile : MonoBehaviour
 {
-  protected virtual void move()
-  { }
-  
+    protected float timeToLiveDestroy = 3f;
+    
+    protected virtual void move()
+    { }
 
-  public virtual void makeExplosion(GameObject explosion, Collider other)
-  {
-    Destroy(gameObject);
-    GameObject explosionClone;
-    explosionClone = Instantiate(explosion, transform.position, transform.rotation) as GameObject;
-    Destroy(explosionClone, 3f);
-  }
+    public virtual void makeExplosion(GameObject explosion, Collider other)
+    {
+        Destroy(gameObject);
+        GameObject explosionClone;
+        explosionClone = Instantiate(explosion, transform.position, transform.rotation) as GameObject;
+        Destroy(explosionClone, timeToLiveDestroy);
+    }
 
 
 }
